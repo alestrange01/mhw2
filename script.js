@@ -6,19 +6,20 @@ const conteggio = {"egocentrico": 0, "empatico": 0, "aperto":0, "nostalgico":0,"
 let taken = {};
 
 function seleziona(event){
+    event.stopPropagation();
     const blocco = event.currentTarget;
-    
     const blocchi = blocco.parentNode.querySelectorAll(".choice-grid div");
     for (const div of blocchi) {
         if(div !== blocco) uncheck(div);
         else check(div);
     }
     taken[blocco.dataset.questionId] = blocco.dataset.choiceId;
-    console.log(taken);
+    // console.log(taken);
 
     if(fine()){
         removeListenersAndDisplayResult();
     }
+    
 }
 
 function uncheck(div){
@@ -47,11 +48,15 @@ function removeListenersAndDisplayResult(){
     result.classList.remove("hidden");
 
     const winner = getWinner()
-    console.log(winner);
+    // console.log(winner);
     const titolo = document.querySelector("#risultato h1");
     titolo.textContent = RESULTS_MAP[winner].title;
     const testo = document.querySelector("#risultato p");
     testo.textContent = RESULTS_MAP[winner].contents;
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
 }
 
 function getWinner(){
@@ -108,6 +113,11 @@ function restore(){
     //tolgo il risultato
     const result = document.querySelector("#risultato");
     result.classList.add("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
 }
 
 
@@ -120,9 +130,4 @@ const reset = document.querySelector("#risultato");
 reset.addEventListener("click", restore);
 
 
-// const result = document.querySelector("#risultato");
-// result.classList.remove("hidden");
-// const titolo = document.querySelector("#risultato h1");
-// titolo.textContent = RESULTS_MAP["blep"].title;
-// const testo = document.querySelector("#risultato p");
-// testo.textContent = RESULTS_MAP['blep'].contents;
+
