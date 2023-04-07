@@ -2,7 +2,7 @@
 const conteggio = {"egocentrico": 0, "empatico": 0, "aperto":0, "nostalgico":0,"creativo":0,
     "ambizioso":0, "malevolo":0, "bridgespammer":0, "ingenuo":0};
 
-// const freeBoxes = [];
+
 let taken = {};
 
 function seleziona(event){
@@ -88,7 +88,9 @@ function getWinner(){
     else return maxKey;
 }
 
-function restore(){
+function restore(event){
+    event.stopPropagation();
+    
     //resetto il conteggio
     taken = {};
     for (const key in conteggio) {
@@ -111,7 +113,8 @@ function restore(){
     }
 
     //tolgo il risultato
-    const result = document.querySelector("#risultato");
+    const result = event.currentTarget.parentNode;
+    // const result = document.querySelector("#risultato");
     result.classList.add("hidden");
 
     window.scrollTo({
@@ -126,7 +129,7 @@ for (const blocco of blocchi) {
     blocco.addEventListener("click", seleziona);
 }
 
-const reset = document.querySelector("#risultato");
+const reset = document.querySelector("#risultato button");
 reset.addEventListener("click", restore);
 
 
